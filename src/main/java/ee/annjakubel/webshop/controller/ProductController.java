@@ -1,5 +1,7 @@
-package ee.annjakubel.webshop;
+package ee.annjakubel.webshop.controller;
 
+import ee.annjakubel.webshop.model.Product;
+import ee.annjakubel.webshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
