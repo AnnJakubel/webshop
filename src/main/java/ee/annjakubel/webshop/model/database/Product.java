@@ -1,4 +1,4 @@
-package ee.annjakubel.webshop.model;
+package ee.annjakubel.webshop.model.database;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
