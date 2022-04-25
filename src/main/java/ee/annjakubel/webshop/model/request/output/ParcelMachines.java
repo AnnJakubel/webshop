@@ -1,7 +1,7 @@
-package ee.annjakubel.webshop.model.output;
+package ee.annjakubel.webshop.model.request.output;
 
-import ee.annjakubel.webshop.model.input.OmnivaParcelMachine;
-import ee.annjakubel.webshop.model.input.SmartpostParcelMachine;
+import ee.annjakubel.webshop.model.request.input.OmnivaParcelMachine;
+import ee.annjakubel.webshop.model.request.input.SmartpostParcelMachine;
 import lombok.Data;
 
 import java.util.List;

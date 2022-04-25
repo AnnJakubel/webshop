@@ -1,7 +1,7 @@
 package ee.annjakubel.webshop.service;
 
-import ee.annjakubel.webshop.model.input.EveryPayResponse;
-import ee.annjakubel.webshop.model.output.EveryPayData;
+import ee.annjakubel.webshop.model.request.input.EveryPayResponse;
+import ee.annjakubel.webshop.model.request.output.EveryPayData;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package ee.annjakubel.webshop.model.output;
+package ee.annjakubel.webshop.model.request.output;
 
 import lombok.Data;
 

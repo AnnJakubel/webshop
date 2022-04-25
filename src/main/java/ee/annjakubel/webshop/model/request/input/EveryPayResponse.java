@@ -1,4 +1,4 @@
-package ee.annjakubel.webshop.model.input;
+package ee.annjakubel.webshop.model.request.input;
 
 import lombok.Data;
 

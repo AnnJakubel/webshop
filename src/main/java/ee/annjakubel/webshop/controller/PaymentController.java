@@ -4,6 +4,7 @@ import ee.annjakubel.webshop.model.database.Product;
 import ee.annjakubel.webshop.service.OrderService;
 import ee.annjakubel.webshop.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class PaymentController {
     OrderService orderService;
 
     @PostMapping("payment")
-    public String getPaymentLink(@RequestBody List<Product> products) {
+    public ResponseEntity<String> getPaymentLink(@RequestBody List<Product> products) {
         // Tooted -- nimedega+hindadega
         // Maksma - Tellimuse nr-t
         //Salvestan andmebaasi -> maksmata kujul
@@ -33,7 +34,8 @@ public class PaymentController {
         List<Product> originalProducts = orderService.getAllProductsFromDb(products);
         double orderSum = orderService.calculateOrderSum(originalProducts);
         Long id = orderService.saveToDatabase(originalProducts, orderSum);
-        return paymentService.getPaymentLink(orderSum, id);
+        return  ResponseEntity.ok()
+                .body(paymentService.getPaymentLink(orderSum, id));
     }
 
    /* @PostMapping("check-payment")

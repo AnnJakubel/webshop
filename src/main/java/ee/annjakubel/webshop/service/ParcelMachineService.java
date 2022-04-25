@@ -1,18 +1,16 @@
 package ee.annjakubel.webshop.service;
 
-import ee.annjakubel.webshop.model.input.OmnivaParcelMachine;
-import ee.annjakubel.webshop.model.input.SmartpostParcelMachine;
-import ee.annjakubel.webshop.model.output.ParcelMachines;
+import ee.annjakubel.webshop.model.request.input.OmnivaParcelMachine;
+import ee.annjakubel.webshop.model.request.input.SmartpostParcelMachine;
+import ee.annjakubel.webshop.model.request.output.ParcelMachines;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
