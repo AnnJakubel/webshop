@@ -1,8 +1,12 @@
 package ee.annjakubel.webshop.service;
 
+import ee.annjakubel.webshop.model.database.Order;
+import ee.annjakubel.webshop.model.database.PaymentState;
+import ee.annjakubel.webshop.model.request.input.EveryPayCheckResponse;
 import ee.annjakubel.webshop.model.request.input.EveryPayResponse;
 import ee.annjakubel.webshop.model.request.output.EveryPayData;
 
+import ee.annjakubel.webshop.repository.OrderRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +42,9 @@ public class PaymentService {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    OrderRepository orderRepository;
+
     public String getPaymentLink(double amount, Long orderId) {
         EveryPayData everyPayData = buildEveryPayData(amount, orderId);
 
@@ -72,5 +79,33 @@ public class PaymentService {
         everyPayData.setCustomer_url(customerUrl); //serverisse yles heroku --
         // java ja front-end(Angular/React)
         return everyPayData;
+    }
+
+    public Boolean checkIfOrderPaid(Long orderId, String paymentRef) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Basic " + credentials);
+        HttpEntity httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<EveryPayCheckResponse> response = restTemplate.exchange(everyPayBaseUrl + "/payments/" + paymentRef + "?" + username, HttpMethod.GET, httpEntity, EveryPayCheckResponse.class);
+
+        if (response.getStatusCodeValue() == 200 && response.getBody() != null) {
+            String paymentState = response.getBody().getPayment_state();
+            Order order = orderRepository.findById(orderId).get();
+            switch (paymentState) {
+                case "failed":
+                    order.setPaymentState(PaymentState.FAILED);
+                    return false;
+                case "voided":
+                    order.setPaymentState(PaymentState.VOIDED);
+                    return false;
+                case "abandoned":
+                    order.setPaymentState(PaymentState.ABANDONED);
+                    return true;
+                case "settled":
+                    order.setPaymentState(PaymentState.SETTLED);
+                    return true;
+            }
+        }
+        return false;
     }
 }

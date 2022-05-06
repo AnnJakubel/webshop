@@ -2,6 +2,7 @@ package ee.annjakubel.webshop.service;
 
 import ee.annjakubel.webshop.cache.ProductCache;
 import ee.annjakubel.webshop.model.database.Order;
+import ee.annjakubel.webshop.model.database.PaymentState;
 import ee.annjakubel.webshop.model.database.Product;
 import ee.annjakubel.webshop.repository.OrderRepository;
 import ee.annjakubel.webshop.repository.ProductRepository;
@@ -38,6 +39,7 @@ public class OrderService {
         Order order = new Order();
         order.setOrderSum(calculateOrderSum(products)); //Setterid on annotationi kaudu Order klassis
         order.setProducts(products);
+        order.setPaymentState(PaymentState.INITIAL);
         Order savedOrder = orderRepository.save(order);
         return savedOrder.getId(); //Id on Long tyypi
     }

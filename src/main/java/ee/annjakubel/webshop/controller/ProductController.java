@@ -85,9 +85,11 @@ public class ProductController {
         // Increase stock
         Product updatedProduct = productCache.getProduct(product.getId());
         int productStock = updatedProduct.getStock();
-        updatedProduct.setStock(--productStock);
-        productRepository.save(updatedProduct);
-        productCache.updateCache(updatedProduct);
+        if (productStock > 0) {
+            updatedProduct.setStock(--productStock);
+            productRepository.save(updatedProduct);
+            productCache.updateCache(updatedProduct);
+        }
 
         return ResponseEntity.ok()
                 .body(productRepository.getAllByOrderByIdAsc());

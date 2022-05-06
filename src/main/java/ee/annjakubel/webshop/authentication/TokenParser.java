@@ -18,6 +18,12 @@ import java.io.IOException;
 @Log4j2
 public class TokenParser extends BasicAuthenticationFilter {
 
+    //@Value ei saa
+    private String key;
+
+    public void setKey(String key) {
+        this.key = key;
+    }
     public TokenParser(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
@@ -30,10 +36,10 @@ public class TokenParser extends BasicAuthenticationFilter {
         String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) {
             log.info(token);
-            token.replace("Bearer ", "");
+            token = token.replace("Bearer ", "");
 
             Claims claims = Jwts.parser()
-                    .setSigningKey("super-secret-key")
+                    .setSigningKey(key)
                     .parseClaimsJws(token)
                     .getBody();
 
