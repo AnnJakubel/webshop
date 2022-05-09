@@ -1,9 +1,8 @@
 package ee.annjakubel.webshop.controller;
 
 import ee.annjakubel.webshop.model.database.Product;
-import ee.annjakubel.webshop.service.OrderService;
-import ee.annjakubel.webshop.service.PaymentService;
-import org.apache.coyote.Response;
+import ee.annjakubel.webshop.service.OrderServiceImpl;
+import ee.annjakubel.webshop.service.PaymentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +10,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class PaymentController {
 
     @Autowired
-    PaymentService paymentService;
+    PaymentServiceImpl paymentService;
     //nagu new PaymentService() tekitamine
     //yks m2lukoht koguaeg
 
     @Autowired
-    OrderService orderService;
+    OrderServiceImpl orderService;
 
     @PostMapping("payment")
     public ResponseEntity<String> getPaymentLink(@RequestBody List<Product> products) {

@@ -1,7 +1,7 @@
 package ee.annjakubel.webshop.controller;
 
 import ee.annjakubel.webshop.model.request.output.ParcelMachines;
-import ee.annjakubel.webshop.service.ParcelMachineService;
+import ee.annjakubel.webshop.service.ParcelMachineServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ParcelMachineController {
 
     @Autowired
-    ParcelMachineService parcelMachineService;
+    ParcelMachineServiceImpl parcelMachineService;
 
     @Operation(description = "Nii Omniva kui Smartposti pakiautomaatide kättesaamine")
     @GetMapping("parcel-machines/{country}")

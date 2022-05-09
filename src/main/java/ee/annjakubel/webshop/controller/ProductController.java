@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
 
 
@@ -59,7 +60,7 @@ public class ProductController {
                 .body(productRepository.getAllByOrderByIdAsc());
     }
 
-    @DeleteMapping("products")
+    @DeleteMapping("delete-all-products")
     public ResponseEntity<String> deleteAllProduct() {
         productRepository.flush();
         productCache.emptyCache();
