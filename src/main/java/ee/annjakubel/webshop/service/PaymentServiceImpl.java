@@ -6,6 +6,7 @@ import ee.annjakubel.webshop.model.request.input.EveryPayCheckResponse;
 import ee.annjakubel.webshop.model.request.input.EveryPayResponse;
 import ee.annjakubel.webshop.model.request.output.EveryPayData;
 
+import ee.annjakubel.webshop.model.request.output.EveryPayUrl;
 import ee.annjakubel.webshop.repository.OrderRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     OrderRepository orderRepository;
 
-    public String getPaymentLink(double amount, Long orderId) {
+    public EveryPayUrl getPaymentLink(double amount, Long orderId) {
         EveryPayData everyPayData = buildEveryPayData(amount, orderId);
 
         String url = everyPayBaseUrl + "/payments/oneoff";
@@ -55,13 +56,14 @@ public class PaymentServiceImpl implements PaymentService {
 
         HttpEntity<EveryPayData> httpEntity = new HttpEntity<>(everyPayData, headers);
 
+        EveryPayUrl everyPayUrl = new EveryPayUrl();
         //yks ja sama new koguaeg --> @Autowired
         ResponseEntity<EveryPayResponse> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, EveryPayResponse.class);
         if(response.getStatusCodeValue() == 201 && response.getBody() != null) {
-            return response.getBody().getPayment_link();
+            everyPayUrl.setUrl(response.getBody().getPayment_link());
         }
 
-        return "";
+        return everyPayUrl;
     }
 
     private EveryPayData buildEveryPayData(double amount, Long orderId) {

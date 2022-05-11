@@ -1,6 +1,7 @@
 package ee.annjakubel.webshop.service;
 
 import ee.annjakubel.webshop.model.database.Product;
+import ee.annjakubel.webshop.model.request.input.CartProducts;
 
 import java.util.List;
 

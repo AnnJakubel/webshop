@@ -1,6 +1,8 @@
 package ee.annjakubel.webshop.controller;
 
 import ee.annjakubel.webshop.model.database.Product;
+import ee.annjakubel.webshop.model.request.input.CartProducts;
+import ee.annjakubel.webshop.model.request.output.EveryPayUrl;
 import ee.annjakubel.webshop.service.OrderServiceImpl;
 import ee.annjakubel.webshop.service.PaymentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ public class PaymentController {
     OrderServiceImpl orderService;
 
     @PostMapping("payment")
-    public ResponseEntity<String> getPaymentLink(@RequestBody List<Product> products) {
+    public ResponseEntity<EveryPayUrl> getPaymentLink(@RequestBody List<Product> products) {
         // Tooted -- nimedega+hindadega
         // Maksma - Tellimuse nr-t
         //Salvestan andmebaasi -> maksmata kujul
