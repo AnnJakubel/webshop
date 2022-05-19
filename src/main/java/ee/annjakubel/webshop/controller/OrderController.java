@@ -1,4 +1,4 @@
-package ee.annjakubel.webshop.controller.exception;
+package ee.annjakubel.webshop.controller;
 
 
 import ee.annjakubel.webshop.model.database.Order;
@@ -19,19 +19,21 @@ import java.util.List;
 @Log4j2
 @CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
+
     @Autowired
     OrderRepository orderRepository;
 
     @Autowired
     PersonRepository personRepository;
 
-    @GetMapping("orders")
-    public ResponseEntity<List<Order>> getOrders() {
+    @GetMapping("orders") // localhost:8080/orders
+    public ResponseEntity<List<Order>>  getOrders() {
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Person person = personRepository.getByEmail(email);
         log.info("Getting orders from {}", person.getPersonCode());
 
         return ResponseEntity.ok()
-                .body(orderRepository.findAll());
+                .body(orderRepository.getOrdersByPersonOrderByCreationDateDesc(person));
     }
+
 }

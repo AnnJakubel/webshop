@@ -52,6 +52,7 @@ public class TokenParser extends BasicAuthenticationFilter {
                         null
                 );
                 SecurityContextHolder.getContext().setAuthentication(auth);
+
             } catch (ExpiredJwtException |
                      MalformedJwtException |
                      UnsupportedJwtException |

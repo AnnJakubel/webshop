@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
                     try {
                         return productCache.getProduct(p.getId());
                     } catch (ExecutionException e) {
-                        log.error("Cache error{}", e.getMessage());
+                        log.error("Cache error {}", e.getMessage());
                         return null;
                     }
                 })

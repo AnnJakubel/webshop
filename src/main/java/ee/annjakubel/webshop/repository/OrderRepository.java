@@ -6,5 +6,5 @@ import ee.annjakubel.webshop.model.database.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> getOrderByPersonOrderByCreationDate(Person person);
+    List<Order> getOrdersByPersonOrderByCreationDateDesc(Person person);
 }
