@@ -1,6 +1,7 @@
 package ee.annjakubel.webshop.controller.exception;
 
 import org.apache.coyote.Response;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -47,4 +48,72 @@ public class ErrorHandler {
 
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
     }
+
+    /*@ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleException(PersonNotFoundException e) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setHttpStatus(HttpStatus.BAD_REQUEST);
+        response.setHttpStatusCode(HttpStatus.BAD_REQUEST.value());
+        response.setTimestamp(new Date());
+        response.setMessage("EMAIL_NOT_FOUND");
+//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleException(InvalidPasswordException e) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setHttpStatus(HttpStatus.BAD_REQUEST);
+        response.setHttpStatusCode(HttpStatus.BAD_REQUEST.value());
+        response.setTimestamp(new Date());
+        response.setMessage("INVALID_PASSWORD");
+//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleException(PersonExistsException e) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setHttpStatus(HttpStatus.BAD_REQUEST);
+        response.setHttpStatusCode(HttpStatus.BAD_REQUEST.value());
+        response.setTimestamp(new Date());
+        response.setMessage("PERSON_EXISTS");
+//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }*/
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleException(AuthenticationException e) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setHttpStatus(HttpStatus.BAD_REQUEST);
+        response.setHttpStatusCode(HttpStatus.BAD_REQUEST.value());
+        response.setTimestamp(new Date());
+        response.setMessage(e.getMessage());
+//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleException(DataIntegrityViolationException e) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setHttpStatus(HttpStatus.BAD_REQUEST);
+        response.setHttpStatusCode(HttpStatus.BAD_REQUEST.value());
+        response.setTimestamp(new Date());
+        response.setMessage(e.getMessage());
+//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleException(EmailExistsException e) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setHttpStatus(HttpStatus.BAD_REQUEST);
+        response.setHttpStatusCode(HttpStatus.BAD_REQUEST.value());
+        response.setTimestamp(new Date());
+        response.setMessage(e.getMessage().split("Key")[1]);
+//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+
 }

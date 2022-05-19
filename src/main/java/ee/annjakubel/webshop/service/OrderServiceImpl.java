@@ -3,6 +3,7 @@ package ee.annjakubel.webshop.service;
 import ee.annjakubel.webshop.cache.ProductCache;
 import ee.annjakubel.webshop.model.database.Order;
 import ee.annjakubel.webshop.model.database.PaymentState;
+import ee.annjakubel.webshop.model.database.Person;
 import ee.annjakubel.webshop.model.database.Product;
 import ee.annjakubel.webshop.repository.OrderRepository;
 import ee.annjakubel.webshop.repository.ProductRepository;
@@ -10,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -34,11 +36,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     //Ehitan valmis Orderi ja salvestan andmebaasi
-    public Long saveToDatabase(List<Product> products, double orderSum) {
+    public Long saveToDatabase(List<Product> products, double orderSum, Person person) {
         Order order = new Order();
-        order.setOrderSum(calculateOrderSum(products)); //Setterid on annotationi kaudu Order klassis
+        order.setOrderSum(orderSum);
+        order.setCreationDate(new Date());//Setterid on annotationi kaudu Order klassis
         order.setProducts(products);
         order.setPaymentState(PaymentState.INITIAL);
+        order.setPerson(person);
         Order savedOrder = orderRepository.save(order);
         return savedOrder.getId(); //Id on Long tyypi
     }

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -22,7 +23,13 @@ public class Order {
     private Long id;
     private double orderSum;
     private PaymentState paymentState;
+    private Date creationDate;
+
+    @OneToOne
+    private Person person;
 
     @ManyToMany
     private List<Product> products;
 }
+
+

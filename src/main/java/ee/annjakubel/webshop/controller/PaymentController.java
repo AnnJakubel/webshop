@@ -1,17 +1,22 @@
 package ee.annjakubel.webshop.controller;
 
+import ee.annjakubel.webshop.model.database.Person;
 import ee.annjakubel.webshop.model.database.Product;
 import ee.annjakubel.webshop.model.request.input.CartProducts;
 import ee.annjakubel.webshop.model.request.output.EveryPayUrl;
+import ee.annjakubel.webshop.repository.PersonRepository;
 import ee.annjakubel.webshop.service.OrderServiceImpl;
 import ee.annjakubel.webshop.service.PaymentServiceImpl;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Log4j2
 @CrossOrigin(origins = "http://localhost:3000")
 public class PaymentController {
 
@@ -23,18 +28,18 @@ public class PaymentController {
     @Autowired
     OrderServiceImpl orderService;
 
+    @Autowired
+    PersonRepository personRepository;
+
     @PostMapping("payment")
     public ResponseEntity<EveryPayUrl> getPaymentLink(@RequestBody List<Product> products) {
-        // Tooted -- nimedega+hindadega
-        // Maksma - Tellimuse nr-t
-        //Salvestan andmebaasi -> maksmata kujul
-        // V6tan andmebaasist tema ID (Mis on genereeritud)
-        // ---> L2hen maksma
-        // Kui on maksrud, muudan andmebaasis makstuks
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Person person = personRepository.getByEmail(email);
+        log.info("Initialized payment link getting, {}", person.getPersonCode());
 
         List<Product> originalProducts = orderService.getAllProductsFromDb(products);
         double orderSum = orderService.calculateOrderSum(originalProducts);
-        Long id = orderService.saveToDatabase(originalProducts, orderSum);
+        Long id = orderService.saveToDatabase(originalProducts, orderSum, person);
         return  ResponseEntity.ok()
                 .body(paymentService.getPaymentLink(orderSum, id));
     }
