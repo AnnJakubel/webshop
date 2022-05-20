@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(tokenParser)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/products").permitAll()
+                .antMatchers(HttpMethod.GET,"/products/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/signup").permitAll()
                 .anyRequest().authenticated();
