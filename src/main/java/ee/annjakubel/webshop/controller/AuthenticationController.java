@@ -6,6 +6,7 @@ import ee.annjakubel.webshop.model.database.Person;
 import ee.annjakubel.webshop.model.request.input.LoginData;
 import ee.annjakubel.webshop.model.request.output.AuthData;
 import ee.annjakubel.webshop.repository.PersonRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.ValidationException;
 import java.sql.SQLException;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@Log4j2
 public class AuthenticationController {
 
     @Autowired
@@ -30,7 +33,7 @@ public class AuthenticationController {
     TokenGenerator tokenGenerator;
 
     @PostMapping("signup")
-    public ResponseEntity<Boolean> signup(@RequestBody Person person) throws AuthenticationException, EmailExistsException {
+    public ResponseEntity<Boolean> signup(@RequestBody Person person) throws AuthenticationException, EmailExistsException, Exception {
         //person.setPassword(); hashimine
         if (personRepository.findById(person.getPersonCode()).isPresent()) {
             throw new AuthenticationException("PERSON_EXISTS");
@@ -45,6 +48,8 @@ public class AuthenticationController {
             Throwable rootCause = com.google.common.base.Throwables.getRootCause(e);
             if (rootCause instanceof SQLException) {
                 throw new EmailExistsException(rootCause.getMessage());
+            } else {
+                throw new ValidationException(rootCause.getMessage());
             }
         }
 

@@ -115,5 +115,15 @@ public class ErrorHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleException(IllegalArgumentException e) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setHttpStatus(HttpStatus.BAD_REQUEST);
+        response.setHttpStatusCode(HttpStatus.BAD_REQUEST.value());
+        response.setTimestamp(new Date());
+        response.setMessage(e.getMessage() + " (personCode)");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package ee.annjakubel.webshop.model.database;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class Subcategory {
     private Long id;
     private String name;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     private Category category;
 }

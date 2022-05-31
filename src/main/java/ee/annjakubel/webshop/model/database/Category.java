@@ -1,5 +1,6 @@
 package ee.annjakubel.webshop.model.database;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Category {
     private Long id;
     private String name;
 
-    @OneToMany
+    @JsonManagedReference
+    @OneToMany(mappedBy = "category", cascade = CascadeType.MERGE)
     private List<Subcategory> subcategories;
 }
